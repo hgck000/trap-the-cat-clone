@@ -44,3 +44,18 @@ export function seedRandom(seed: string) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
+
+// Trả về chuỗi 'x,y x,y ...' cho <polygon points="...">
+export function hexPoints(radius: number, inset = 0): string {
+  // inset: bo góc nhẹ bằng cách thu nhỏ bán kính tí xíu
+  const r = radius - inset;
+  const pts: Array<[number, number]> = [];
+  for (let i = 0; i < 6; i++) {
+    // pointy-top: góc bắt đầu -90° (hướng lên)
+    const angle = (-90 + i * 60) * (Math.PI / 180);
+    const x = Math.cos(angle) * r;
+    const y = Math.sin(angle) * r;
+    pts.push([x, y]);
+  }
+  return pts.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(' ');
+}

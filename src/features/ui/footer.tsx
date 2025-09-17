@@ -14,8 +14,8 @@ export function Footer() {
 
   return (
     <footer className="w-full max-w-3xl flex items-center justify-between">
-      <p className="text-sm opacity-70">Seed: {seed}</p>
-      <button className="px-3 py-1 rounded bg-neutral-200 dark:bg-neutral-700" onClick={share}>
+      <p className="text-sm text-[var(--text-weak)]">Seed: {seed}</p>
+      <button className="px-3 py-1 rounded bg-[var(--surface-2)] border border-[var(--line)]" onClick={share}>
         Share this board
       </button>
     </footer>

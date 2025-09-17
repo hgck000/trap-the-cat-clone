@@ -2,11 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Style mặc định nhỏ để nhìn dễ hơn */
-:root { color-scheme: light dark; }
-body {
-  @apply bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100;
+/* ===== Color System (Light/Dark) ===== */
+:root {
+  /* page & surfaces */
+  --bg:            #f8fafc;   /* slate-50 */
+  --surface:       #ffffff;   /* white card */
+  --surface-2:     #f1f5f9;   /* slate-100 */
+  --line:          #e2e8f0;   /* slate-200 */
+
+  /* brand & accents */
+  --primary:       #6d28d9;   /* violet-700 (nút chính) */
+  --primary-weak:  #a78bfa;   /* violet-300 (hover nhẹ) */
+  --accent:        #22d3ee;   /* cyan-400 */
+
+  /* game colors */
+  --cell:          #e5e7eb;   /* neutral-200 (ô trống) */
+  --cell-dark:     #374151;   /* gray-700  (trống dark) */
+  --block:         #7c3aed;   /* violet-600 (ô chặn) */
+  --cat:           #f59e0b;   /* amber-500 (mèo) */
+
+  /* text */
+  --text:          #0f172a;   /* slate-900 */
+  --text-weak:     #475569;   /* slate-600 */
 }
-button:focus-visible {
-  @apply outline outline-2 outline-indigo-500;
+
+:root.dark, :root[data-theme="dark"] {
+  --bg:            #0b1020;   /* deep night */
+  --surface:       #0f172a;   /* slate-900 */
+  --surface-2:     #111827;   /* gray-900 */
+  --line:          #1f2937;   /* gray-800 */
+
+  --primary:       #8b5cf6;   /* violet-500 */
+  --primary-weak:  #a78bfa;   /* violet-300 */
+  --accent:        #22d3ee;   /* cyan-400 */
+
+  --cell:          #334155;   /* slate-700 */
+  --cell-dark:     #1f2937;   /* gray-800 */
+  --block:         #8b5cf6;   /* violet-500 */
+  --cat:           #f59e0b;   /* amber-500 */
+
+  --text:          #e5e7eb;   /* neutral-200 */
+  --text-weak:     #94a3b8;   /* slate-400 */
+}
+
+/* nền trang nhẹ, tôn màu brand */
+body {
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(109,40,217,.25), transparent 60%),
+    radial-gradient(800px 400px at 10% 110%, rgba(34,211,238,.20), transparent 60%),
+    var(--bg);
+}
+
+button:focus-visible { @apply outline outline-2 outline-indigo-500; }
+
+/* ============ Cat hop animation ============ */
+/* ============ Cat hop animation (slow-mo) ============ */
+@keyframes cat-hop {
+  0%   { transform: translateY(0)    scale(1);    }
+  30%  { transform: translateY(-8px) scale(1.03); }
+  60%  { transform: translateY(-2px) scale(1.01); }
+  100% { transform: translateY(0)    scale(1);    }
+}
+.cat-hop {
+  animation: cat-hop 520ms cubic-bezier(.22,.61,.36,1); /*  dài hơn & eased mượt */
+  will-change: transform;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.08));       /* nhẹ nhàng cho có chiều sâu */
 }

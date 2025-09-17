@@ -1,7 +1,8 @@
 import { create } from 'zustand';
-import { createGrid, isEdge, seedRandom } from './hex';
+import { createGrid, isEdge, seedRandom, neighborsOf } from './hex';
 import type { Pos } from './hex';
 import { shortestPathStep } from '../algo/bfs';
+
 
 type Difficulty = 'easy' | 'normal' | 'hard';
 
@@ -14,7 +15,7 @@ type State = {
   seed: string;
   turns: number;
   best: number | null;
-  status: 'playing' | 'won' | 'lost';
+  status: 'playing' | 'done';
   last?: {
     cat: Pos;
     blocked: Set<string>;
@@ -28,6 +29,8 @@ type Actions = {
   setDifficulty: (d: Difficulty) => void;
   placeBlock: (p: Pos) => void;
   undo: () => void;
+  respawnRandom: () => void;
+  setStatus: (s: State['status']) => void;
 };
 
 const KEY_BEST = 'ttc_best';
@@ -104,7 +107,17 @@ export const useBoardStore = create<State & Actions>((set, get) => ({
     const url = new URL(location.href);
     url.searchParams.set('difficulty', d);
     history.replaceState({}, '', url);
-    set({ difficulty: d }, () => get().init());
+    // set({ difficulty: d }, () => get().init());
+    set({ difficulty: d })   // chỉ set phần cần đổi
+    get().init()  
+  },
+
+  setStatus: (s) => set({ status: s }),
+
+  respawnRandom: () => {
+    const newSeed = Math.random().toString(36).slice(2, 10);
+    set({ seed: newSeed });     // cập nhật seed trước
+    get().init();               // rồi init lại theo seed mới
   },
 
   placeBlock: (p) => {
@@ -121,39 +134,50 @@ export const useBoardStore = create<State & Actions>((set, get) => ({
   nextBlocked.add(key);
 
   // 2) BFS tìm bước kế tiếp
-  const step = shortestPathStep({ size, cat, blocked: nextBlocked });
+  // 2) BFS tìm bước kế tiếp tới biên
+const step = shortestPathStep({ size, cat, blocked: nextBlocked });
 
-  // 2.a) Không có đường → Win
-  if (!step) {
-    const newTurns = turns + 1;
-    const newBest = best === null || newTurns < best ? newTurns : best;
-    if (newBest !== best) localStorage.setItem(KEY_BEST, String(newBest));
-    set({
-      blocked: nextBlocked,
-      turns: newTurns,
-      status: 'won',
-      best: newBest,
-      last: prev,
-    });
-    alert('You win!');
-    return;
-  }
+// === NEW: Kiểm tra nước đi hợp lệ xung quanh (không xét đường ra biên) ===
+const neighs = neighborsOf(cat, size);
+const freeNeighbors = neighs.filter(nb => !nextBlocked.has(`${nb.r},${nb.c}`));
 
-  // 2.b) Có đường → mèo đi 1 bước
-  const moved = step;
+// 2.a) Nếu KHÔNG còn ô kề trống nào → Win (mèo hoàn toàn bị bao vây)
+if (freeNeighbors.length === 0) {
+  const newTurns = turns + 1;
+  const newBest = best === null || newTurns < best ? newTurns : best;
+  if (newBest !== best) localStorage.setItem(KEY_BEST, String(newBest));
+  set({
+    blocked: nextBlocked,
+    turns: newTurns,
+    status: 'done',
+    best: newBest,
+    last: prev,
+  });
+  // (UI-4 sẽ không dùng alert nữa; nếu bạn đã bỏ, xóa dòng dưới)
+  // alert('You win!');
+  return;
+}
 
-  // 3) Nếu bước mới ở biên → Lose
-  if (isEdge(moved, size)) {
-    set({
-      cat: moved,
-      blocked: nextBlocked,
-      turns: turns + 1,
-      status: 'lost',
-      last: prev,
-    });
-    alert('Cat escaped!');
-    return;
-  }
+// 2.b) Nếu còn ô kề trống:
+//     - Nếu có `step` (tồn tại đường ra biên) → mèo đi theo `step`.
+//     - Nếu KHÔNG có `step` (không có đường ra biên) → mèo vẫn phải đi,
+//       chọn tạm 1 ô trống kề (ở đây chọn ngẫu nhiên cho đơn giản).
+const moved = step ?? freeNeighbors[Math.floor(Math.random() * freeNeighbors.length)];
+
+// Cập nhật di chuyển & lượt
+set({
+  cat: moved,
+  blocked: nextBlocked,
+  turns: turns + 1,
+  last: prev,
+});
+
+// 3) Nếu bước mới ở biên → KHÓA và để UI fade/respawn (không alert)
+if (isEdge(moved, size)) {
+  set({ status: 'done' });
+  return;
+}
+
 
   // 4) Tiếp tục game
   set({
@@ -165,3 +189,4 @@ export const useBoardStore = create<State & Actions>((set, get) => ({
 },
 
 }));
+

@@ -15,7 +15,7 @@ export function Header() {
 
       <div className="flex items-center gap-2">
         <select
-          className="px-2 py-1 rounded border"
+          className="px-2 py-1 rounded border border-[var(--line)] bg-[var(--surface)]"
           value={diff}
           onChange={e => setDiff(e.target.value as any)}
           disabled={status !== 'playing'}  // đổi độ khó khi đang chơi? tuỳ bạn. Ở đây mình khoá để tránh reset bất ngờ
@@ -26,20 +26,25 @@ export function Header() {
         </select>
 
         <button
-          className="px-3 py-1 rounded bg-neutral-200 dark:bg-neutral-700 disabled:opacity-50"
+          className="px-3 py-1 rounded bg-[var(--surface-2)] border border-[var(--line)] disabled:opacity-50"
           onClick={undo}
           disabled={status !== 'playing'}
         >
           Undo
         </button>
 
-        <button className="px-3 py-1 rounded bg-indigo-500 text-white" onClick={restart}>
+        <button
+          className="px-3 py-1 rounded bg-[var(--primary)] text-white hover:brightness-95"
+          onClick={restart}
+        >
           Restart
         </button>
+
       </div>
 
-      <div className="text-sm opacity-80">
-        Turns: <b>{turns}</b> · Best: <b>{best ?? '—'}</b>
+      <div className="text-sm text-[var(--text-weak)]">
+        Turns: <b className="text-[var(--text)]">{turns}</b>
+        {' '}· Best: <b className="text-[var(--text)]">{best ?? '—'}</b>
       </div>
     </header>
   )
