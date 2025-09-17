@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Style mặc định nhỏ để nhìn dễ hơn */
+:root { color-scheme: light dark; }
+body {
+  @apply bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100;
+}
+button:focus-visible {
+  @apply outline outline-2 outline-indigo-500;
+}
