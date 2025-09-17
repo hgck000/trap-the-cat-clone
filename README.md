@@ -20,8 +20,3 @@ A minimalist Trap-the-Cat clone built for web. Focus on clean architecture, dete
 ```bash
 npm install
 npm run dev
-
-## Build
-```bash
-npm run build
-npm run preview
