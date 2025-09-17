@@ -20,7 +20,7 @@ A minimalist Trap-the-Cat clone built for web. Focus on clean architecture, dete
 
 Here’s a quick look at the game UI:
 
-![Trap the Cat Screenshot](./demo.png)
+![Trap the Cat Screenshot](src/assets/demo.png)
 
 ## Quick Start
 ```bash
