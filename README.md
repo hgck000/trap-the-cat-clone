@@ -16,11 +16,13 @@ A minimalist Trap-the-Cat clone built for web. Focus on clean architecture, dete
 - **Vitest + Testing Library** (unit tests for BFS & grid)
 - Deploy: **Vercel**
 
+**Live:** https://trap-the-cat-clone.vercel.app/
+
 ## Preview
 
 Here’s a quick look at the game UI:
 
-![Trap the Cat Screenshot](src/assets/demo.png)
+![Trap the Cat Demo](src/assets/demo.gif)
 
 ## Quick Start
 ```bash
