@@ -20,9 +20,9 @@ export function Header() {
           onChange={e => setDiff(e.target.value as any)}
           disabled={status !== 'playing'}  // đổi độ khó khi đang chơi? tuỳ bạn. Ở đây mình khoá để tránh reset bất ngờ
         >
-          <option value="easy">Easy</option>
+          <option value="easy">Hard</option>
           <option value="normal">Normal</option>
-          <option value="hard">Hard</option>
+          <option value="hard">Easy</option>
         </select>
 
         <button

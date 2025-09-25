@@ -1,6 +1,10 @@
-# Trap the Cat (React + TypeScript + SVG)
+> 🦉 *“Hoo... hoo... owl never sleeps.”*
+> — Cú Đại Nhân 🦉
 
+# Trap the Cat (React + TypeScript + SVG)
 A minimalist Trap-the-Cat clone built for web. Focus on clean architecture, deterministic seeding, and accessible UI.
+
+---
 
 ## Features
 - Hex-like grid (odd-r offset), SVG rendering, responsive.
@@ -8,6 +12,8 @@ A minimalist Trap-the-Cat clone built for web. Focus on clean architecture, dete
 - Click to block cells, **Undo 1 step**, turn counter, **best score** (localStorage).
 - Difficulty presets (Easy/Normal/Hard), **seed** via URL (`?seed=abcd`).
 - Win/Lose feedback, optional sound toggle.
+
+---
 
 ## Tech
 - **React + TypeScript + Vite**
@@ -18,13 +24,17 @@ A minimalist Trap-the-Cat clone built for web. Focus on clean architecture, dete
 
 **Live:** https://trap-the-cat-clone.vercel.app/
 
+---
+
 ## Preview
 
 Here’s a quick look at the game UI:
 
 ![Trap the Cat Demo](src/assets/demo.gif)
 
-## Quick Start
+---
+
+## Quick Start (after clone)
 ```bash
 npm install
 npm run dev
