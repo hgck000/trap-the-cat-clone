@@ -69,3 +69,12 @@ button:focus-visible { @apply outline outline-2 outline-indigo-500; }
   will-change: transform;
   filter: drop-shadow(0 2px 2px rgba(0,0,0,.08));       /* nhẹ nhàng cho có chiều sâu */
 }
+
+.hex-cell-interactive {
+  cursor: pointer;
+  transition: fill 150ms ease, transform 120ms ease
+}
+
+.hex-cell-interactive:hover {
+  fill: var(--primary-weak)
+}

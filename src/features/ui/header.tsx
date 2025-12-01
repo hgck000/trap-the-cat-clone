@@ -1,4 +1,5 @@
 import { useBoardStore } from '../board/useBoard'
+import { ThemeToggle } from './theme-toggle'
 
 export function Header() {
   const turns = useBoardStore(s => s.turns)
@@ -39,6 +40,8 @@ export function Header() {
         >
           Restart
         </button>
+
+        <ThemeToggle />
 
       </div>
 

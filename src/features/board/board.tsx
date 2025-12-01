@@ -117,23 +117,21 @@ export function Board() {
         ? 'var(--block)'
         : 'var(--cell)';
 
+        const isClickable = status === 'playing' && !isBlocked && !isCat
+
         return (
           <g key={i} transform={`translate(${x},${y})`}>
             <polygon
               points={HEX}
-              className={
-                isCat
-                  ? 'fill-amber-400'
-                  : isBlocked
-                  ? 'fill-indigo-500'
-                  : status !== 'playing'
-                  ? 'fill-neutral-200 dark:fill-neutral-700'
-                  : 'fill-indigo-50 hover:fill-indigo-300 cursor-pointer'
-              }
-              style={{ fill: baseFill, stroke: 'var(--line)', strokeWidth: 1.2 }}
+              className={isClickable ? 'hex-cell-interactive' : ''} 
+              style={{
+                fill: baseFill,
+                stroke: 'var(--line)',
+                strokeWidth: 1.2
+              }}
               onClick={() => {
-                if (status !== 'playing') return;
-                if (!isBlocked && !isCat) placeBlock(p);
+                if (status !== 'playing') return
+                if (!isBlocked && !isCat) placeBlock(p)
               }}
             />
             {/* {isCat && (
